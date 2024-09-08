@@ -19,7 +19,6 @@ export const TurnCalendar = ({ players }) => {
 
   const getPlayers = (countMap) => {
     const [lowestPlayer] = [...countMap.entries()].sort(([, a], [, b]) => a - b)
-    console.log(lowestPlayer)
 
     return lowestPlayer ? [lowestPlayer[0]] : [null]
   }
@@ -49,11 +48,9 @@ export const TurnCalendar = ({ players }) => {
 
     const dayCount = Math.ceil((end - start) / (1000 * 60 * 60 * 24))
     const playerMap = new Map(players.map((player) => [player.name, 0]))
-    console.log(playerMap, dayCount)
 
     const newDays = Array.from({ length: dayCount }, (_, i) => {
       const [playerName] = getPlayers(playerMap)
-      console.log(playerName)
 
       if (playerName) playerMap.set(playerName, playerMap.get(playerName) + 1)
       const day = new Date(start)
