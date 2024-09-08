@@ -33,13 +33,25 @@ export const AddPlayer = ({ setPlayers }) => {
   return (
     <section className="wrap">
       <form action="" className="flex flex-col items-start" onSubmit={handleSubmit}>
-        <h2 className="text-2xl font-bold mb-3">新增值日生</h2>
+        <h2 className="mb-3 text-2xl font-bold">新增值日生</h2>
 
         <label htmlFor="player-name">名字：</label>
-        <input type="text" className="input mt-1 mb-4" id="player-name" ref={playerName} />
+        <input
+          type="text"
+          className="input mb-4 mt-1"
+          id="player-name"
+          ref={playerName}
+          placeholder="請輸入名字"
+        />
 
         <label htmlFor="player-job">職種：</label>
-        <input type="text" className="input mt-1 mb-4" id="player-job" ref={playerJob} />
+        <input
+          type="text"
+          className="input mb-4 mt-1"
+          id="player-job"
+          ref={playerJob}
+          placeholder="請輸入職種"
+        />
 
         <div>
           <button type="submit" className="btn-primary">

@@ -15,14 +15,14 @@ function App() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold mb-10 text-center mt-20">選手村值日生</h1>
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-10 px-10">
-        <article>
+      <h1 className="mb-10 mt-20 text-center text-3xl font-bold">選手村值日生</h1>
+      <section className="grid grid-cols-1 gap-6 px-10 md:grid-cols-12">
+        <article className="md:col-span-5">
           <AddPlayer setPlayers={setPlayers} />
           <Players players={players} setPlayers={setPlayers} />
         </article>
-        <article>
-          <TurnCalendar players={players} />
+        <article className="md:col-span-7">
+          <TurnCalendar players={players} setPlayers={setPlayers} />
         </article>
       </section>
     </>
