@@ -32,6 +32,16 @@ export const TurnCalendar = ({ players }) => {
         title: '錯誤',
         text: '請先新增玩家'
       })
+      return
+    }
+
+    if (!startDate.current.value || !endDate.current.value) {
+      Swal.fire({
+        icon: 'error',
+        title: '錯誤',
+        text: '請選擇日期'
+      })
+      return
     }
 
     const start = new Date(startDate.current.value)
