@@ -11,16 +11,15 @@ const formatDate = (date) =>
 
 // Turn Calendar Start
 export const TurnCalendar = ({ players }) => {
-  const date = new Date()
-  const startDate = useRef(formatDate(date))
-  const endDate = useRef(formatDate(new Date(date.setMonth(date.getMonth() + 1))))
+  const startDateRef = useRef(null)
+  const endDateRef = useRef(null)
+
   const [days, setDays] = useState([])
   const [playerCountMap, setPlayerCountMap] = useState(new Map())
 
   const getPlayers = (countMap) => {
-    const [lowestPlayer] = [...countMap.entries()].sort(([, a], [, b]) => a - b)
-
-    return lowestPlayer ? [lowestPlayer[0]] : [null]
+    const [lowestPlayer] = [...countMap.entries()].sort(([, a], [, b]) => a - b) // 降冪排序, [name] 是指取陣列第一個值
+    return lowestPlayer ? lowestPlayer[0] : null
   }
 
   const handleSubmit = (e) => {
@@ -34,7 +33,7 @@ export const TurnCalendar = ({ players }) => {
       return
     }
 
-    if (!startDate.current.value || !endDate.current.value) {
+    if (!startDateRef.current.value || !endDateRef.current.value) {
       Swal.fire({
         icon: 'error',
         title: '錯誤',
@@ -43,14 +42,14 @@ export const TurnCalendar = ({ players }) => {
       return
     }
 
-    const start = new Date(startDate.current.value)
-    const end = new Date(endDate.current.value)
+    const start = new Date(startDateRef.current.value)
+    const end = new Date(endDateRef.current.value)
 
     const dayCount = Math.ceil((end - start) / (1000 * 60 * 60 * 24))
     const playerMap = new Map(players.map((player) => [player.name, 0]))
 
     const newDays = Array.from({ length: dayCount }, (_, i) => {
-      const [playerName] = getPlayers(playerMap)
+      const playerName = getPlayers(playerMap)
 
       if (playerName) playerMap.set(playerName, playerMap.get(playerName) + 1)
       const day = new Date(start)
@@ -83,11 +82,16 @@ export const TurnCalendar = ({ players }) => {
         <input
           type="date"
           className="input mb-4"
-          defaultValue={startDate.current}
-          ref={startDate}
+          defaultValue={formatDate(new Date())}
+          ref={startDateRef}
         />
         <label htmlFor="endDate">結束日：</label>
-        <input type="date" className="input mb-4" defaultValue={endDate.current} ref={endDate} />
+        <input
+          type="date"
+          className="input mb-4"
+          defaultValue={formatDate(new Date(new Date().setMonth(new Date().getMonth() + 1)))}
+          ref={endDateRef}
+        />
         <div>
           <button type="submit" className="btn-primary">
             產生表格
