@@ -1,15 +1,15 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import * as XLSX from 'xlsx'
 import Swal from 'sweetalert2'
 import PlayerTable from './PlayerTable'
+import DaysTable from './DaysTable'
 
 const padZero = (num) => num.toString().padStart(2, '0')
 
 const formatDate = (date) =>
   `${date.getFullYear()}-${padZero(date.getMonth() + 1)}-${padZero(date.getDate())}`
 
-// Turn Calendar Start
 export const TurnCalendar = ({ players }) => {
   const startDateRef = useRef(null)
   const endDateRef = useRef(null)
@@ -17,9 +17,45 @@ export const TurnCalendar = ({ players }) => {
   const [days, setDays] = useState([])
   const [playerCountMap, setPlayerCountMap] = useState(new Map())
 
+  /**
+   * Get the two players with the lowest count
+   * @param {Map} countMap player count map
+   * @returns {array} two players with the lowest count
+   */
   const getPlayers = (countMap) => {
-    const [lowestPlayer] = [...countMap.entries()].sort(([, a], [, b]) => a - b) // 降冪排序, [name] 是指取陣列第一個值
-    return lowestPlayer ? lowestPlayer[0] : null
+    const lowestPlayer = [...countMap.entries()].sort(([, a], [, b]) => a - b) // 降冪排序, [name] 是指取陣列第一個值
+    const [obj1, obj2] = lowestPlayer.slice(0, 2)
+    return [obj1 || null, obj2 || null]
+  }
+
+  /**
+   * Get days array with player info
+   * @param {number} dayCount number of days
+   * @param {Map} playerMap player count map
+   * @param {Date} start start date
+   * @returns {array} days array with player info
+   */
+  const getDays = (dayCount, playerMap, start) => {
+    return Array.from({ length: dayCount }, (_, i) => {
+      const day = new Date(start)
+      day.setDate(start.getDate() + i)
+      if (isFilterWeekEnd && [0, 6].includes(day.getDay())) return null
+
+      const [player1, player2] = getPlayers(playerMap)
+      const [name1, count1] = player1
+      const [name2, count2] = player2
+
+      if (name1 && name2) {
+        playerMap.set(name1, count1 + 1)
+        playerMap.set(name2, count2 + 1)
+      }
+
+      return {
+        dayStr: formatDate(day),
+        name1,
+        name2
+      }
+    })
   }
 
   const handleSubmit = (e) => {
@@ -48,14 +84,7 @@ export const TurnCalendar = ({ players }) => {
     const dayCount = Math.ceil((end - start) / (1000 * 60 * 60 * 24))
     const playerMap = new Map(players.map((player) => [player.name, 0]))
 
-    const newDays = Array.from({ length: dayCount }, (_, i) => {
-      const playerName = getPlayers(playerMap)
-
-      if (playerName) playerMap.set(playerName, playerMap.get(playerName) + 1)
-      const day = new Date(start)
-      day.setDate(start.getDate() + i)
-      return { dayStr: formatDate(day), name1: playerName }
-    })
+    const newDays = getDays(dayCount, playerMap, start)
 
     setDays(newDays)
     setPlayerCountMap(playerMap)
@@ -74,9 +103,30 @@ export const TurnCalendar = ({ players }) => {
     XLSX.writeFile(wb, 'TurnCalendar.xlsx')
   }
 
+  const [isFilterWeekEnd, setIsFilterWeekEnd] = useState(() => {
+    return localStorage.getItem('isFilterWeekEnd') === '1' || false
+  })
+
+  useEffect(() => {
+    localStorage.setItem('isFilterWeekEnd', isFilterWeekEnd ? '1' : '0')
+  }, [isFilterWeekEnd])
+
   return (
     <section className="wrap">
       <h2 className="mb-3 text-2xl font-bold">值日表</h2>
+
+      <div className="mb-2 flex gap-3 rounded-md bg-slate-300 px-2 py-3">
+        排除假日
+        <div
+          className={`relative h-5 w-10 cursor-pointer rounded-full border border-gray-800 ${isFilterWeekEnd ? 'bg-gray-800' : 'bg-gray-200'}`}
+          onClick={() => setIsFilterWeekEnd(!isFilterWeekEnd)}
+        >
+          <div
+            className={`absolute left-[1px] top-[1px] h-4 w-4 rounded-full transition-all duration-500 ${isFilterWeekEnd ? 'ml-5 bg-white' : 'bg-gray-800'}`}
+          ></div>
+        </div>
+      </div>
+
       <form onSubmit={handleSubmit}>
         <label htmlFor="startDate">起始日：</label>
         <input
@@ -101,7 +151,11 @@ export const TurnCalendar = ({ players }) => {
             重設
           </button>
           {days.length > 0 && (
-            <button type="button" className="btn-warning ms-2" onClick={exportPlayerDataToExcel}>
+            <button
+              type="button"
+              className="btn-warning mt-2 md:ms-2 md:mt-0"
+              onClick={exportPlayerDataToExcel}
+            >
               匯出表格
             </button>
           )}
@@ -120,29 +174,3 @@ export const TurnCalendar = ({ players }) => {
 TurnCalendar.propTypes = {
   players: PropTypes.array.isRequired
 }
-// Turn Calendar End
-
-// Days Table Start
-const DaysTable = ({ days }) => (
-  <table className="mt-5 table w-full overflow-hidden rounded-lg shadow-md">
-    <thead className="bg-slate-300">
-      <tr className="*:py-2">
-        <th>日期</th>
-        <th>值日生</th>
-      </tr>
-    </thead>
-    <tbody>
-      {days.map((day) => (
-        <tr key={day.dayStr} className="*:p-2 *:text-center even:bg-slate-200">
-          <td>{day.dayStr}</td>
-          <td>{day.name1}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-)
-
-DaysTable.propTypes = {
-  days: PropTypes.array.isRequired
-}
-// Days Table End

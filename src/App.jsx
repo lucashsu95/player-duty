@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
-import { AddPlayer } from './components/AddPlayer'
-import { Players } from './components/Players'
+import { AddPlayer } from '@/components/AddPlayer'
+import { PlayersList } from '@/components/PlayersList'
 import { TurnCalendar } from './components/TurnCalendar'
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
       <section className="grid grid-cols-1 gap-6 px-10 md:grid-cols-12">
         <article className="md:col-span-5">
           <AddPlayer setPlayers={setPlayers} />
-          <Players players={players} setPlayers={setPlayers} />
+          <PlayersList players={players} setPlayers={setPlayers} />
         </article>
         <article className="md:col-span-7">
           <TurnCalendar players={players} setPlayers={setPlayers} />

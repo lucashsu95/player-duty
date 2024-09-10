@@ -2,7 +2,7 @@ import { useState } from 'react'
 import UploadIcon from '../assets/upload.png'
 import PropTypes from 'prop-types'
 
-const TheDialog = ({ importPlayerData }) => {
+const TheDialog = ({ onImport }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const openDialog = () => setIsOpen(true)
@@ -12,7 +12,7 @@ const TheDialog = ({ importPlayerData }) => {
   }
 
   const importFile = (e) => {
-    importPlayerData(e)
+    onImport(e)
     closeDialog(e)
   }
 
@@ -53,7 +53,7 @@ const TheDialog = ({ importPlayerData }) => {
   )
 }
 TheDialog.propTypes = {
-  importPlayerData: PropTypes.func.isRequired
+  onImport: PropTypes.func.isRequired
 }
 
 export default TheDialog
