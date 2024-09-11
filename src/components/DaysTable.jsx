@@ -10,19 +10,16 @@ const DaysTable = ({ days }) => (
       </tr>
     </thead>
     <tbody>
-      {days.map(
-        (day) =>
-          day && (
-            <tr key={day.dayStr} className="*:p-2 *:text-center even:bg-slate-200">
-              <td>
-                {day.dayStr} (
-                {['日', '一', '二', '三', '四', '五', '六'][new Date(day.dayStr).getDay()]})
-              </td>
-              <td>{day.name1}</td>
-              <td>{day.name2}</td>
-            </tr>
-          )
-      )}
+      {days.map((day) => (
+        <tr key={day.dayStr} className="*:p-2 *:text-center even:bg-slate-200">
+          <td>
+            {day.dayStr} (
+            {['日', '一', '二', '三', '四', '五', '六'][new Date(day.dayStr).getDay()]})
+          </td>
+          <td>{day.name1}</td>
+          <td>{day.name2}</td>
+        </tr>
+      ))}
     </tbody>
   </table>
 )

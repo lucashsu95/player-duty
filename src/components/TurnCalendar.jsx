@@ -84,8 +84,7 @@ export const TurnCalendar = ({ players }) => {
     const dayCount = Math.ceil((end - start) / (1000 * 60 * 60 * 24))
     const playerMap = new Map(players.map((player) => [player.name, 0]))
 
-    const newDays = getDays(dayCount, playerMap, start)
-
+    const newDays = getDays(dayCount, playerMap, start).filter((x) => x)
     setDays(newDays)
     setPlayerCountMap(playerMap)
   }
@@ -96,7 +95,10 @@ export const TurnCalendar = ({ players }) => {
   }
 
   const exportPlayerDataToExcel = () => {
-    const data = [['日期', '值日生'], ...days.map((day) => [day.dayStr, day.name1])]
+    const data = [
+      ['日期', '值日生1', '值日生2'],
+      ...days.map((day) => [day.dayStr, day.name1, day.name2])
+    ]
     const ws = XLSX.utils.aoa_to_sheet(data)
     const wb = XLSX.utils.book_new()
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1')
