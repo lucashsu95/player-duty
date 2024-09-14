@@ -3,7 +3,7 @@ import Swal from 'sweetalert2'
 import TheDialog from './TheDialog'
 import { useState } from 'react'
 
-export const PlayersList = ({ players, setPlayers }) => {
+export const PlayersList = ({ btnsRef, divRef, players, setPlayers }) => {
   const handleImport = (event) => {
     const file = event.target.files[0]
 
@@ -86,7 +86,7 @@ export const PlayersList = ({ players, setPlayers }) => {
     <section className="wrap mt-8">
       <h2 className="mb-2 text-2xl font-bold">選手列表</h2>
 
-      <div className="mb-3 flex flex-col items-start gap-2">
+      <div className="mb-3 flex flex-col items-start gap-2" ref={btnsRef}>
         <TheDialog onImport={handleImport} />
         <button className="btn-primary" onClick={handleExport}>
           匯出選手資料
@@ -98,7 +98,7 @@ export const PlayersList = ({ players, setPlayers }) => {
 
       <p className="my-2 text-sm text-gray-600">拖曳選手可以調整順序</p>
       {players.length > 0 ? (
-        <table className="table w-full overflow-hidden rounded-lg shadow-md">
+        <table className="table w-full overflow-hidden rounded-lg shadow-md" ref={divRef}>
           <thead className="bg-slate-300">
             <tr className="*:p-2 *:text-center">
               <th>名稱</th>
@@ -136,6 +136,8 @@ export const PlayersList = ({ players, setPlayers }) => {
 }
 
 PlayersList.propTypes = {
+  btnsRef: PropTypes.object.isRequired,
+  divRef: PropTypes.object.isRequired,
   players: PropTypes.array.isRequired,
   setPlayers: PropTypes.func.isRequired
 }

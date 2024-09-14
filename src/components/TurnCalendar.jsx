@@ -10,7 +10,7 @@ const padZero = (num) => num.toString().padStart(2, '0')
 const formatDate = (date) =>
   `${date.getFullYear()}-${padZero(date.getMonth() + 1)}-${padZero(date.getDate())}`
 
-export const TurnCalendar = ({ players }) => {
+export const TurnCalendar = ({ filterWeekendRef, selectDateRef, players }) => {
   const startDateRef = useRef(null)
   const endDateRef = useRef(null)
 
@@ -117,7 +117,7 @@ export const TurnCalendar = ({ players }) => {
     <section className="wrap">
       <h2 className="mb-3 text-2xl font-bold">值日表</h2>
 
-      <div className="mb-2 flex gap-3 rounded-md bg-slate-300 px-2 py-3">
+      <div className="mb-2 flex gap-3 rounded-md bg-slate-300 px-2 py-3" ref={filterWeekendRef}>
         排除假日
         <div
           className={`relative h-5 w-10 cursor-pointer rounded-full border border-gray-800 ${isFilterWeekEnd ? 'bg-gray-800' : 'bg-gray-200'}`}
@@ -130,20 +130,22 @@ export const TurnCalendar = ({ players }) => {
       </div>
 
       <form onSubmit={handleSubmit}>
-        <label htmlFor="startDate">起始日：</label>
-        <input
-          type="date"
-          className="input mb-4"
-          defaultValue={formatDate(new Date())}
-          ref={startDateRef}
-        />
-        <label htmlFor="endDate">結束日：</label>
-        <input
-          type="date"
-          className="input mb-4"
-          defaultValue={formatDate(new Date(new Date().setMonth(new Date().getMonth() + 1)))}
-          ref={endDateRef}
-        />
+        <div ref={selectDateRef}>
+          <label htmlFor="startDate">起始日：</label>
+          <input
+            type="date"
+            className="input mb-4"
+            defaultValue={formatDate(new Date())}
+            ref={startDateRef}
+          />
+          <label htmlFor="endDate">結束日：</label>
+          <input
+            type="date"
+            className="input mb-4"
+            defaultValue={formatDate(new Date(new Date().setMonth(new Date().getMonth() + 1)))}
+            ref={endDateRef}
+          />
+        </div>
         <div>
           <button type="submit" className="btn-primary">
             產生表格
@@ -174,5 +176,7 @@ export const TurnCalendar = ({ players }) => {
 }
 
 TurnCalendar.propTypes = {
+  filterWeekendRef: PropTypes.object.isRequired,
+  selectDateRef: PropTypes.object.isRequired,
   players: PropTypes.array.isRequired
 }

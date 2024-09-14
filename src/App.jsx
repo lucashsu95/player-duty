@@ -1,13 +1,20 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
-import { AddPlayer } from '@/components/AddPlayer'
+import AddPlayer from '@/components/AddPlayer'
 import { PlayersList } from '@/components/PlayersList'
-import { TurnCalendar } from './components/TurnCalendar'
+import { TurnCalendar } from '@/components/TurnCalendar'
+import TeachBox from '@/components/TeachBox'
 
 function App() {
   const [players, setPlayers] = useState(() => {
     return JSON.parse(localStorage.getItem('players')) || []
   })
+
+  const addPlayerRef = useRef(null)
+  const playersBtnsRef = useRef(null)
+  const playersListRef = useRef(null)
+  const filterWeekendRef = useRef(null)
+  const selectDateRef = useRef(null)
 
   useEffect(() => {
     localStorage.setItem('players', JSON.stringify(players))
@@ -15,14 +22,32 @@ function App() {
 
   return (
     <>
+      <TeachBox
+        addPlayerRef={addPlayerRef}
+        playersBtnsRef={playersBtnsRef}
+        playersListRef={playersListRef}
+        filterWeekendRef={filterWeekendRef}
+        selectDateRef={selectDateRef}
+      />
+
       <h1 className="mb-10 mt-20 text-center text-3xl font-bold">選手村值日生</h1>
       <section className="grid grid-cols-1 gap-6 px-10 md:grid-cols-12">
         <article className="md:col-span-5">
-          <AddPlayer setPlayers={setPlayers} />
-          <PlayersList players={players} setPlayers={setPlayers} />
+          <AddPlayer divRef={addPlayerRef} setPlayers={setPlayers} />
+          <PlayersList
+            btnsRef={playersBtnsRef}
+            divRef={playersListRef}
+            players={players}
+            setPlayers={setPlayers}
+          />
         </article>
         <article className="md:col-span-7">
-          <TurnCalendar players={players} setPlayers={setPlayers} />
+          <TurnCalendar
+            filterWeekendRef={filterWeekendRef}
+            selectDateRef={selectDateRef}
+            players={players}
+            setPlayers={setPlayers}
+          />
         </article>
       </section>
     </>

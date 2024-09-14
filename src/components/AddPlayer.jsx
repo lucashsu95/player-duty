@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { useRef } from 'react'
 import Swal from 'sweetalert2'
 
-export const AddPlayer = ({ setPlayers }) => {
+const AddPlayer = ({ divRef, setPlayers }) => {
   const playerName = useRef(null)
   const playerJob = useRef(null)
 
@@ -31,7 +31,7 @@ export const AddPlayer = ({ setPlayers }) => {
   }
 
   return (
-    <section className="wrap">
+    <section className="wrap" ref={divRef}>
       <form action="" className="flex flex-col items-start" onSubmit={handleSubmit}>
         <h2 className="mb-3 text-2xl font-bold">新增值日生</h2>
 
@@ -67,5 +67,8 @@ export const AddPlayer = ({ setPlayers }) => {
 }
 
 AddPlayer.propTypes = {
+  divRef: PropTypes.object.isRequired,
   setPlayers: PropTypes.func.isRequired
 }
+
+export default AddPlayer
