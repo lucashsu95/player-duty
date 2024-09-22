@@ -6,8 +6,9 @@ import { TurnCalendar } from '@/components/TurnCalendar'
 import TeachBox from '@/components/TeachBox'
 
 function App() {
+  const player = JSON.parse(localStorage.getItem('players'))
   const [players, setPlayers] = useState(() => {
-    return JSON.parse(localStorage.getItem('players')) || []
+    return player.length > 0 ? player : [{ id: 1, name: '小明', job: '選手' }]
   })
 
   const addPlayerRef = useRef(null)
