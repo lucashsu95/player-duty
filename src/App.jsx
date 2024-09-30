@@ -8,7 +8,7 @@ import TeachBox from '@/components/TeachBox'
 function App() {
   const player = JSON.parse(localStorage.getItem('players'))
   const [players, setPlayers] = useState(() => {
-    return player.length > 0 ? player : [{ id: 1, name: '小明', job: '選手' }]
+    return player && player.length > 0 ? player : [{ id: 1, name: '小恩', job: '程式選手' }]
   })
 
   const addPlayerRef = useRef(null)

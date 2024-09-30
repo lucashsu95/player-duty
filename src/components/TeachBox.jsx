@@ -18,13 +18,13 @@ const focusTextList = [
   '選擇日期'
 ]
 
-const TeachBox = ({
+export default function TeachBox({
   addPlayerRef,
   playersListRef,
   filterWeekendRef,
   selectDateRef,
   playersBtnsRef
-}) => {
+}) {
   const [descriptionLevel, setDescriptionLevel] = useState(0)
   const isHidden = descriptionLevel === 5
 
@@ -57,18 +57,26 @@ const TeachBox = ({
   return (
     <>
       {!isHidden && (
-        <div
-          className="absolute inset-0 z-10"
-          ref={focusWrapRef}
-          onClick={() => setDescriptionLevel(descriptionLevel + 1)}
-        >
-          <FocusBox ref={focusBoxRef}>
-            <div
-              className="absolute -translate-y-full transform rounded-md bg-white px-3 py-2"
-              ref={focusTextRef}
-            />
-          </FocusBox>
-        </div>
+        <>
+          <div
+            className="bounce text-bold absolute bottom-0 right-0 z-20 mr-10 cursor-pointer rounded-full bg-[#fff9] px-3 py-1 text-xl"
+            onClick={() => setDescriptionLevel(5)}
+          >
+            Skip
+          </div>
+          <div
+            className="fixed inset-0 z-10"
+            ref={focusWrapRef}
+            onClick={() => setDescriptionLevel(descriptionLevel + 1)}
+          >
+            <FocusBox ref={focusBoxRef}>
+              <div
+                className="absolute -translate-y-full transform rounded-md bg-white px-3 py-2"
+                ref={focusTextRef}
+              />
+            </FocusBox>
+          </div>
+        </>
       )}
     </>
   )
@@ -80,4 +88,3 @@ TeachBox.propTypes = {
   selectDateRef: PropTypes.object.isRequired,
   playersBtnsRef: PropTypes.object.isRequired
 }
-export default TeachBox

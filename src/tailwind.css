@@ -68,3 +68,19 @@
 
   /* Transform End */
 }
+
+@keyframes bounce {
+  from {
+    transform: translateY(-500px);
+  }
+}
+
+.bounce {
+  @apply animate-bounce;
+}
+
+@layer utilities {
+  .animate-bounce {
+    animation: bounce 1.5s infinite;
+  }
+}

@@ -24,11 +24,10 @@ const TheDialog = ({ onImport }) => {
 
       {isOpen && (
         <>
-          <div className="fixed inset-0 bg-black bg-opacity-50" onClick={closeDialog}></div>
-          <div className="fixed left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform items-center justify-center">
+          <div className="fixed z-10 inset-0 bg-black bg-opacity-50" onClick={closeDialog}></div>
+          <div className="fixed z-10 left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform items-center justify-center">
             <div className="rounded bg-white p-6 shadow-lg">
               <h2 className="mb-4 text-lg font-bold">上傳檔案</h2>
-
               <form>
                 <label
                   htmlFor="file_input"

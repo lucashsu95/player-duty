@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import * as XLSX from 'xlsx'
-import Swal from 'sweetalert2'
 import PlayerTable from './PlayerTable'
 import DaysTable from './DaysTable'
 
@@ -58,23 +57,22 @@ export const TurnCalendar = ({ filterWeekendRef, selectDateRef, players }) => {
     })
   }
 
+  const [errors, setErrors] = useState({})
+
   const handleSubmit = (e) => {
     e.preventDefault()
     if (players.length === 0) {
-      Swal.fire({
-        icon: 'error',
-        title: '錯誤',
-        text: '請先新增玩家'
-      })
+      setErrors((prev) => ({ ...prev, players: '請先新增玩家' }))
+      return
+    }
+
+    if (players.length === 1) {
+      setErrors((prev) => ({ ...prev, players: '玩家不能少於兩位' }))
       return
     }
 
     if (!startDateRef.current.value || !endDateRef.current.value) {
-      Swal.fire({
-        icon: 'error',
-        title: '錯誤',
-        text: '請選擇日期'
-      })
+      setErrors((prev) => ({ ...prev, players: '請選擇日期' }))
       return
     }
 
@@ -120,7 +118,7 @@ export const TurnCalendar = ({ filterWeekendRef, selectDateRef, players }) => {
       <div className="mb-2 flex gap-3 rounded-md bg-slate-300 px-2 py-3" ref={filterWeekendRef}>
         排除假日
         <div
-          className={`relative h-5 w-10 cursor-pointer rounded-full border border-gray-800 ${isFilterWeekEnd ? 'bg-gray-800' : 'bg-gray-200'}`}
+          className={`relative z-0 h-5 w-10 cursor-pointer rounded-full border border-gray-800 ${isFilterWeekEnd ? 'bg-gray-800' : 'bg-gray-200'}`}
           onClick={() => setIsFilterWeekEnd(!isFilterWeekEnd)}
         >
           <div
@@ -147,11 +145,12 @@ export const TurnCalendar = ({ filterWeekendRef, selectDateRef, players }) => {
           />
         </div>
         <div>
+          {errors.players && <p className="text-danger">{errors.players}</p>}
           <button type="submit" className="btn-primary">
             產生表格
           </button>
 
-          <button type="reset" className="btn-secondary ms-2" onClick={handleReset}>
+          <button type="reset" className="btn-secondary mt-2 ml-2 sm:ml-2 sm:mt-0" onClick={handleReset}>
             重設
           </button>
           {days.length > 0 && (
