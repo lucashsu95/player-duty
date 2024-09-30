@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 const FocusBox = styled.div`
-  position: absolute;
+  position: fixed;
   border: 2px solid #f38;
   box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
   border-radius: 6px;
@@ -65,7 +65,7 @@ export default function TeachBox({
             Skip
           </div>
           <div
-            className="fixed inset-0 z-10"
+            className="absolute inset-0 z-10"
             ref={focusWrapRef}
             onClick={() => setDescriptionLevel(descriptionLevel + 1)}
           >
