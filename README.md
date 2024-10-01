@@ -21,5 +21,5 @@
 
 ## Language & Framework
 
-![vite,react,tailwindcss](htt ps://skillicons.dev/icons?theme=light&i=vite,react,tailwindcss)
+![vite,react,tailwindcss](https://skillicons.dev/icons?theme=light&i=vite,react,tailwindcss)
 
