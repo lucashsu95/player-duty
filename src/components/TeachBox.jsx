@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
@@ -18,13 +18,13 @@ const focusTextList = [
   '選擇日期'
 ]
 
-export default function TeachBox({
+const TeachBox = ({
   addPlayerRef,
   playersListRef,
   filterWeekendRef,
   selectDateRef,
   playersBtnsRef
-}) {
+}) => {
   const [descriptionLevel, setDescriptionLevel] = useState(0)
   const isHidden = descriptionLevel === 5
 
@@ -42,7 +42,6 @@ export default function TeachBox({
       filterWeekendRef.current.getBoundingClientRect(),
       selectDateRef.current.getBoundingClientRect()
     ]
-
     const rect = rects[descriptionLevel]
     focusTextRef.current.textContent = focusTextList[descriptionLevel]
 
@@ -53,6 +52,26 @@ export default function TeachBox({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [descriptionLevel, isHidden])
+
+  useEffect(() => {
+    const handleScroll = (event) => {
+      const rects = [
+        addPlayerRef.current.getBoundingClientRect(),
+        playersBtnsRef.current.getBoundingClientRect(),
+        playersListRef.current.getBoundingClientRect(),
+        filterWeekendRef.current.getBoundingClientRect(),
+        selectDateRef.current.getBoundingClientRect()
+      ]
+      const rect = rects[descriptionLevel]
+      focusBoxRef.current.style.top = `${rect.top + event.deltaY}px`
+    }
+
+    window.addEventListener('wheel', handleScroll)
+
+    return () => {
+      window.removeEventListener('wheel', handleScroll)
+    }
+  }, [])
 
   return (
     <>
@@ -81,6 +100,7 @@ export default function TeachBox({
     </>
   )
 }
+
 TeachBox.propTypes = {
   addPlayerRef: PropTypes.object.isRequired,
   playersListRef: PropTypes.object.isRequired,
@@ -88,3 +108,5 @@ TeachBox.propTypes = {
   selectDateRef: PropTypes.object.isRequired,
   playersBtnsRef: PropTypes.object.isRequired
 }
+
+export default TeachBox
