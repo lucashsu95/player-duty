@@ -150,7 +150,11 @@ export const TurnCalendar = ({ filterWeekendRef, selectDateRef, players }) => {
             產生表格
           </button>
 
-          <button type="reset" className="btn-secondary mt-2 ml-2 sm:ml-2 sm:mt-0" onClick={handleReset}>
+          <button
+            type="reset"
+            className="btn-secondary ml-2 mt-2 sm:ml-2 sm:mt-0"
+            onClick={handleReset}
+          >
             重設
           </button>
           {days.length > 0 && (
