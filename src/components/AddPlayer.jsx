@@ -1,3 +1,5 @@
+'use client';
+
 import PropTypes from 'prop-types'
 import { useRef } from 'react'
 import Swal from 'sweetalert2'
