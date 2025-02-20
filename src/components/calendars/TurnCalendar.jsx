@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import * as XLSX from 'xlsx'
-import PlayerTable from './PlayerTable'
-import DaysTable from './DaysTable'
+import PlayerTable from '../tables/PlayerTable'
+import DaysTable from '../tables/DaysTable'
 
 const padZero = (num) => num.toString().padStart(2, '0')
 
@@ -126,6 +126,18 @@ export const TurnCalendar = ({ filterWeekendRef, selectDateRef, players }) => {
           ></div>
         </div>
       </div>
+
+      {/* <div className="mb-2 flex gap-3 rounded-md bg-slate-300 px-2 py-3" ref={filterWeekendRef}>
+        日/週
+        <div
+          className={`relative z-0 h-5 w-10 cursor-pointer rounded-full border border-gray-800 ${isFilterWeekEnd ? 'bg-gray-800' : 'bg-gray-200'}`}
+          onClick={() => setIsFilterWeekEnd(!isFilterWeekEnd)}
+        >
+          <div
+            className={`absolute left-[1px] top-[1px] h-4 w-4 rounded-full transition-all duration-500 ${isFilterWeekEnd ? 'ml-5 bg-white' : 'bg-gray-800'}`}
+          ></div>
+        </div>
+      </div> */}
 
       <form onSubmit={handleSubmit}>
         <div ref={selectDateRef}>

@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import PropTypes from 'prop-types'
 import { useRef } from 'react'

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import UploadIcon from '../assets/upload.png'
+import UploadIcon from '@/assets/upload.png'
 import PropTypes from 'prop-types'
 
 const TheDialog = ({ onImport }) => {

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import Swal from 'sweetalert2'
-import TheDialog from './TheDialog'
+import TheDialog from '../dialogs/TheDialog'
 import { useState } from 'react'
 
 export const PlayersList = ({ btnsRef, divRef, players, setPlayers }) => {

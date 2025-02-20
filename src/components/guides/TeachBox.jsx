@@ -26,7 +26,7 @@ const TeachBox = ({
   playersBtnsRef
 }) => {
   const [descriptionLevel, setDescriptionLevel] = useState(0)
-  const isHidden = localStorage.getItem('isHiddenTeachBox')
+  const [isHidden, setIsHidden] = useState(localStorage.getItem('isHiddenTeachBox') || false)
   const focusWrapRef = useRef(null)
   const focusBoxRef = useRef(null)
   const focusTextRef = useRef(null)
@@ -35,6 +35,7 @@ const TeachBox = ({
     if (isHidden) return
     if (descriptionLevel === 5) {
       localStorage.setItem('isHiddenTeachBox', 'true')
+      setIsHidden(true)
       return
     }
 
@@ -75,6 +76,7 @@ const TeachBox = ({
     return () => {
       window.removeEventListener('wheel', handleScroll)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [descriptionLevel])
 
   return (

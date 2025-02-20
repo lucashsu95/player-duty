@@ -2,6 +2,12 @@
 
 ![alt text](./docs/image.png)
 
+## How to Start
+
+```shell
+pnpm i
+```
+
 ## 簡介
 
 這個網站是個值日生自動排班系統, 用來快速建立值日生排班資料庫, 也可以用來自動排班值日生。
@@ -16,8 +22,6 @@
   - [x] 刪除選手
   - [x] 匯入/出json選手資料
   - [x] 拖拉選手位置
-- 其它
-  - [ ] 變成app
 
 ## Language & Framework
 

@@ -1,15 +1,15 @@
-'use client';
+'use client'
 import { useState, useEffect, useRef } from 'react'
 
-import AddPlayer from '@/components/AddPlayer'
-import { PlayersList } from '@/components/PlayersList'
-import { TurnCalendar } from '@/components/TurnCalendar'
-import TeachBox from '@/components/TeachBox'
+import AddPlayer from '@/components/forms/AddPlayer'
+import { PlayersList } from '@/components/lists/PlayersList'
+import { TurnCalendar } from '@/components/calendars/TurnCalendar'
+import TeachBox from '@/components/guides/TeachBox'
 
 function App() {
   const player = JSON.parse(localStorage.getItem('players'))
   const [players, setPlayers] = useState(() => {
-    return player && player.length > 0 ? player : [{ id: 1, name: '小恩', job: '程式選手' }]
+    return player && player.length > 0 ? player : [{ id: 1, name: '小明', job: '程式選手' }]
   })
 
   const addPlayerRef = useRef(null)
@@ -33,8 +33,8 @@ function App() {
       />
 
       <h1 className="mb-10 mt-20 text-center text-3xl font-bold">選手村值日生</h1>
-      <section className="grid grid-cols-1 gap-6 px-10 md:grid-cols-12">
-        <article className="md:col-span-5">
+      <section className="grid grid-cols-1 gap-6 px-10 lg:grid-cols-12">
+        <article className="lg:col-span-5">
           <AddPlayer divRef={addPlayerRef} setPlayers={setPlayers} />
           <PlayersList
             btnsRef={playersBtnsRef}
@@ -43,7 +43,7 @@ function App() {
             setPlayers={setPlayers}
           />
         </article>
-        <article className="md:col-span-7">
+        <article className="lg:col-span-7">
           <TurnCalendar
             filterWeekendRef={filterWeekendRef}
             selectDateRef={selectDateRef}
